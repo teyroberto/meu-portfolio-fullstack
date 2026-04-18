@@ -2,10 +2,14 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# Configuração do banco PostgreSQL
-DATABASE_URL = "postgresql://postgres:9182736456@localhost/fullstack_db"
+# Configuração para SQLite (funciona tanto local quanto no Render)
+SQLALCHEMY_DATABASE_URL = "sqlite:///./database.db"
 
-engine = create_engine(DATABASE_URL)
+# O connect_args é necessário apenas para o SQLite
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+)
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 

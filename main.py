@@ -1,3 +1,5 @@
+from app import models, schemas
+from app.database import engine, get_db
 import string
 import random
 from typing import List
@@ -7,10 +9,6 @@ from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 from sqlalchemy import Column, Integer, String
 from pydantic import BaseModel
-
-# Importações do seu sistema de pastas
-from app import models, schemas
-from app.database import engine, get_db, Base  # Importamos a Base correta daqui
 
 # Cria as tabelas no banco (incluindo Projetos e agora Links)
 models.Base.metadata.create_all(bind=engine)
