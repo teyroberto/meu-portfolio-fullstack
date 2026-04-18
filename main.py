@@ -19,20 +19,16 @@ app = FastAPI(title="API Full-Stack - Roberto", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    # Adicione o link da Vercel aqui!
+    allow_origins=[
+        "http://localhost:5173", 
+        "http://127.0.0.1:5173",
+        "https://meu-portfolio-fullstack.vercel.app" 
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# --- MODELO PARA O ENCURTADOR ---
-# Colocamos ele aqui usando a models.Base para ficar no mesmo banco
-# class LinkEncurtado(models.Base):
-#     __tablename__ = "links_encurtados"
-#     id = Column(Integer, primary_key=True, index=True)
-#     url_original = Column(String)
-#     codigo = Column(String, unique=True, index=True)
-
 # Garante que a tabela de links seja criada
 models.Base.metadata.create_all(bind=engine)
 
@@ -185,6 +181,6 @@ def mudar_status(tarefa_id: int, t: TarefaUpdate, db: Session = Depends(get_db))
 if __name__ == "__main__":
     import uvicorn
     import os
-    # O Render passa a porta automaticamente pela variável de ambiente PORT
     port = int(os.environ.get("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    # Note as aspas em "main:app"
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
